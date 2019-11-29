@@ -29,6 +29,7 @@ WORKDIR /project
 RUN npm install && npm audit fix
 
 WORKDIR /project/user-app
+COPY project/appsody.html .
 
 ENV PORT=3000
 
