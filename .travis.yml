@@ -15,17 +15,14 @@ before_script:
 script:
   - . ./ci/build.sh
 
-git:
-  clone: false
-
-install:
-  - git clone https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
-  - cd $TRAVIS_REPO_SLUG
-  - git status -sb
-  - git checkout $TRAVIS_COMMIT
 
 # note before_deploy will run before each deploy provider
 before_deploy:
+  - rm -rf $TRAVIS_REPO_SLUG
+  - git clone https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
+  - cd $TRAVIS_REPO_SLUG
+  - git status -sb
+  - git reset --hard $TRAVIS_COMMIT
   - . ./ci/release.sh
 
 deploy:
