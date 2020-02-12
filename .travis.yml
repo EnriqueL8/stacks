@@ -9,6 +9,22 @@ dist: bionic
 services:
   - docker
 
+# Delete git repo setup from travis
+# and replace with git clone to master.
+# reset hard to $TRAVIS_COMMIT
+before_install:
+  - rm -rf $TRAVIS_REPO_SLUG
+  - git clone https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
+  - cd $TRAVIS_REPO_SLUG
+  - git status -sb
+  - git reset --hard $TRAVIS_COMMIT
+
+install:
+  on:
+    tags: true
+    repo: appsody/stacks
+    branch: master
+
 before_script:
   - ./ci/download_cli.sh
 
@@ -18,11 +34,6 @@ script:
 
 # note before_deploy will run before each deploy provider
 before_deploy:
-  - rm -rf $TRAVIS_REPO_SLUG
-  - git clone https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
-  - cd $TRAVIS_REPO_SLUG
-  - git status -sb
-  - git reset --hard $TRAVIS_COMMIT
   - . ./ci/release.sh
 
 deploy:
