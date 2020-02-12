@@ -7,5 +7,5 @@ then
   git status
   git reset --hard $TRAVIS_COMMIT
   git status
-  git log @~1
+  git log
 fi
