@@ -20,6 +20,7 @@ before_install:
   - git reset --hard $TRAVIS_COMMIT
 
 install:
+  provider: releases
   on:
     tags: true
     repo: appsody/stacks
