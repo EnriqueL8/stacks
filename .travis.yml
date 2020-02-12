@@ -13,7 +13,7 @@ services:
 # and replace with git clone to master.
 # reset hard to $TRAVIS_COMMIT
 install:
-  - ./ci/git_setup.sh
+  - . ./ci/git_setup.sh
 
 before_script:
   - ./ci/download_cli.sh
