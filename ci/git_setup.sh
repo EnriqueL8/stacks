@@ -4,8 +4,8 @@ then
   # rm -rf $TRAVIS_BUILD_DIR
   git clone https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
   cd $TRAVIS_REPO_SLUG
-  git status -sb
+  git status
   git reset --hard $TRAVIS_COMMIT
-  git status -sb
-  git log
+  git status
+  git log @~1
 fi
