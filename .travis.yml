@@ -9,6 +9,9 @@ dist: bionic
 services:
   - docker
 
+git:
+  clone: false
+
 # Delete git repo setup from travis
 # and replace with git clone to master.
 # reset hard to $TRAVIS_COMMIT
