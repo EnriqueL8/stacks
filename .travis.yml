@@ -9,8 +9,11 @@ dist: bionic
 services:
   - docker
 
-git:
-  clone: false
+    #git:
+    #  clone: false
+    #  - git clone https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
+    #  - cd $TRAVIS_REPO_SLUG
+    #  - if [ -n "$TRAVIS_PULL_REQUEST" ]; then git fetch origin $TRAVIS_PULL_REQUEST_BRANCH
 
 # Delete git repo setup from travis
 # and replace with git clone to master.

@@ -1,31 +1,31 @@
-if [ -n "$RELEASE_BRANCH" ]
+if [ -n "$TRAVIS_TAG" ]
 then
-  TRAVIS_BRANCH=${RELEASE_BRANCH}
-  echo "Release branch is: $RELEASE_BRANCH"
-elif [ -n "$TRAVIS_TAG" ]
-then
-  TRAVIS_BRANCH="master"
-  echo "No RELEASE_BRANCH environment variable set: defaulting to master"
-fi
+  if [ -n "$RELEASE_BRANCH" ]
+  then
+    echo "Release branch is: $RELEASE_BRANCH"
+    TRAVIS_BRANCH=${RELEASE_BRANCH}
+  else
+    echo "No RELEASE_BRANCH environment variable set: defaulting to master"
+    TRAVIS_BRANCH="master"
+  fi
 
-git clone --depth=50 --branch=$TRAVIS_BRANCH https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_REPO_SLUG
-cd $TRAVIS_REPO_SLUG/
+  git clone --depth=50 --branch=$TRAVIS_BRANCH https://github.com/$TRAVIS_REPO_SLUG.git $TRAVIS_BUILD_DIR/release
+  cd $TRAVIS_BUILD_DIR/release
+  # rm -rf $TRAVIS_REPO_DIR
 
-if [ -n "$TRAVIS_PULL_REQUEST" ]
-then
-  echo "$TRAVIS_REQUEST_BRANCH"
-  git fetch origin $TRAVIS_PULL_REQUEST_BRANCH
-  git checkout -qf FETCH_HEAD
-elif [ -n "$TRAVIS_TAG" ]
-then
-  echo "Reseting branch to release commit: $TRAVIS_COMMIT"
+  echo "Looking for release commit in branch..."
   git branch --contains $TRAVIS_COMMIT
+  git status
+
   if [[ $(echo $?) != "0" ]]
   then
     echo "Error: could not find release commit in release branch! Branch: $TRAVIS_BRANCH , Commit: $TRAVIS_COMMIT"
-    exit(1)
+    exit 1
   fi
+
+  echo "Reseting branch to release commit: $TRAVIS_COMMIT"
   git reset --hard $TRAVIS_COMMIT
-else
-  git checkout -qf $TRAVIS_COMMIT
+  git status
 fi
+
+
